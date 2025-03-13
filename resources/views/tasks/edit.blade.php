@@ -22,7 +22,7 @@
 
             <div class="form-group">
                 <label for="due_date">Due Date <span class="text-danger">*</span></label>
-                <input type="date" class="form-control" name="due_date" required>
+                <input type="date" class="form-control" name="due_date" min="<?= date('Y-m-d') ?>" required>
             </div>
 
             <div class="form-group">
