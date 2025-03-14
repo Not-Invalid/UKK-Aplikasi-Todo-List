@@ -7,10 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     {{-- Bootstrap CSS --}}
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('modules/bootstrap/css/bootstrap-grid.css') }}">
 
     {{-- Font Awesome Icons --}}
-    <link rel="stylesheet" href="{{ asset('font-awesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('modules/font-awesome/css/all.min.css') }}">
 
     {{-- Custom styles --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -68,9 +68,9 @@
     </div>
 
     {{-- Bootstrap JS --}}
-    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('modules/bootstrap/js/bootstrap.min.js') }}"></script>
     @vite(['resources/js/app.js'])
-    <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('modules/jquery/jquery-3.7.1.min.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if ("{{ session('success') }}") {
