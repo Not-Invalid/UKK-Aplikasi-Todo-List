@@ -1,0 +1,190 @@
+/*!
+ * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ * Copyright 2024 Fonticons, Inc.
+ */
+:root, :host {
+  --fa-style-family-classic: 'Font Awesome 6 Free';
+  --fa-font-regular: normal 400 1em/1 'Font Awesome 6 Free'; }
+
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("../webfonts/fa-regular-400.woff2") format("woff2"), url("../webfonts/fa-regular-400.ttf") format("truetype"); }
+
+.far,
+.fa-regular {
+  font-weight: 400; }
+
+/*
+<td>{{ \Carbon\Carbon::parse($task->due_date)->format('d-m-Y') }}</td>
+
+<div>
+    <span>Showing {{ $tasks->firstItem() }} to {{ $tasks->lastItem() }} of {{ $tasks->total() }} entries</span>
+</div>
+<div class="d-flex">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <!-- Tombol Previous -->
+            <li class="page-item {{ $tasks->onFirstPage() ? 'disabled' : '' }}">
+                <a class="page-link" href="{{ $tasks->previousPageUrl() }}" aria-label="Previous">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+            </li>
+
+            <!-- Nomor Halaman -->
+            @foreach ($tasks->getUrlRange(1, $tasks->lastPage()) as $page => $url)
+                <li class="page-item {{ $tasks->currentPage() == $page ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                </li>
+            @endforeach
+
+            <!-- Tombol Next -->
+            <li class="page-item {{ $tasks->hasMorePages() ? '' : 'disabled' }}">
+                <a class="page-link" href="{{ $tasks->nextPageUrl() }}" aria-label="Next">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+public function index(Request $request)
+    {
+        $status = $request->input('status', 'all'); // Ambil status dari request, default "all"
+
+        // Query tugas berdasarkan status yang dipilih
+        $query = Task::query();
+
+        if ($status === 'Completed' || $status === 'Uncompleted') {
+            $query->where('status', $status);
+        }
+
+        // Paginate hasilnya (10 tugas per halaman)
+        $tasks = $query->paginate(10);
+
+        return view('tasks.index', compact('tasks', 'status'))->with('title', 'Tasks');
+    }
+
+ public function create()
+    {
+        return view('tasks.create')->with('title', 'Create Task');
+    }
+
+    // Store a newly created task in storage
+    public function store(Request $request)
+    {
+        // Validate the incoming data
+        $validated = $request->validate([
+            'task_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'due_date' => 'required|date',
+            'priority' => 'required|in:Low,Medium,High',
+            'status' => 'required|in:Uncompleted,Completed',
+        ]);
+
+        // Create a new task
+        Task::create($validated);
+
+        // Redirect back to the tasks index page with a success message
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully!');
+    }
+
+    // Show the form for editing a specific task
+    public function edit($id)
+    {
+        $task = Task::findOrFail($id);
+
+        return view('tasks.edit', compact('task'))->with('title', 'Edit Task');
+    }
+
+    // Update a specific task in storage
+    public function update(Request $request, $id)
+    {
+        // Validate the incoming data
+        $validated = $request->validate([
+            'task_name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'due_date' => 'required|date',
+            'priority' => 'required|in:Low,Medium,High',
+            'status' => 'required|in:Uncompleted,Completed',
+        ]);
+
+        // Find the task by ID and update it
+        $task = Task::findOrFail($id);
+        $task->update($validated);
+
+        // Redirect back to the tasks index page with a success message
+        return redirect()->route('tasks.index')->with('success', 'Task updated successfully!');
+    }
+
+    // Delete a specific task from storage
+    public function destroy($id)
+    {
+        // Find the task by ID and delete it
+        $task = Task::findOrFail($id);
+        $task->delete();
+
+        // Redirect back to the tasks index page with a success message
+        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully!');
+    }
+
+    // Mark a task as completed
+    public function markAsDone($id)
+    {
+        // Find the task by ID and mark it as completed
+        $task = Task::findOrFail($id);
+        $task->status = 'Completed';
+        $task->save();
+
+        // Redirect back to the tasks index page with a success message
+        return redirect()->route('tasks.index')->with('success', 'Task marked as completed!');
+    }
+
+     @foreach($tasks as $task)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $task->task_name }}</td>
+            <td>{{ $task->description }}</td>
+            <td>{{ \Carbon\Carbon::parse($task->due_date)->format('d-m-Y') }}</td>
+            <td>
+                <span class="badge badge-custom @if($task->priority == 'High') bg-danger @elseif($task->priority == 'Medium') bg-warning @else bg-success @endif">
+                    {{ $task->priority }}
+                </span>
+            </td>
+            <td>
+                <span class="badge badge-custom @if($task->status == 'Completed') bg-success @else bg-secondary @endif">
+                    {{ $task->status }}
+                </span>
+            </td>
+            <td class="d-flex gap-3 align-items-center justify-content-center">
+                <!-- Mark as Done Form -->
+                @if($task->status == 'Uncompleted')
+                    <form action="{{ route('tasks.markAsDone', $task->id) }}" method="POST" class="done-form">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="btn btn-done mx-2" data-toggle="tooltip" title="Mark as Done">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </form>
+                @endif
+
+                <!-- Edit Button -->
+                <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-md btn-edit" data-toggle="tooltip" title="Edit">
+                    <i class="fas fa-edit"></i>
+                </a>
+
+                <!-- Delete Form -->
+                <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="delete-form">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-delete mx-2" data-toggle="tooltip" title="Delete">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    @endforeach
+ */
