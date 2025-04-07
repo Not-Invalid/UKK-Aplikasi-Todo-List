@@ -60,7 +60,7 @@
             <nav class="nav-layout">
                 <div class="sidebar-button">
                     <i class='fas fa-bars sidebarBtn'></i>
-                    <span class="dashboard">{{ $title }}</span>
+                    <span class="dashboard"> Dashboard </span>
                 </div>
             </nav>
 
