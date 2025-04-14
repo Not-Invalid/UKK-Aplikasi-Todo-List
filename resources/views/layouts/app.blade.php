@@ -60,7 +60,7 @@
             <nav class="nav-layout">
                 <div class="sidebar-button">
                     <i class='fas fa-bars sidebarBtn'></i>
-                    <span class="dashboard"> Dashboard </span>
+                    <span class="dashboard" id="titlePage"> Dashboard </span>
                 </div>
             </nav>
 
